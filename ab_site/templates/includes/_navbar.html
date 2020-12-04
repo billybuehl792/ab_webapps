@@ -1,0 +1,26 @@
+<nav>
+    <h1 class="logo"><a href="{{ url_for('dashboard') }}">A&B Roofing and Construction</a></h1>
+    <ul class="nav-links" id="nav-links">
+        <li>
+            <a href="{{ url_for('dashboard') }}" class="nav-item">Dashboard</a>
+        </li>
+        <li>
+            <a href="{{ url_for('jobs') }}" class="nav-item">Jobs</a>
+        </li>
+        <li>
+            <a href="{{ url_for('customers') }}" class="nav-item">Customers</a>
+        </li>
+        <li>
+            <a href="{{ url_for('calculator') }}" class="nav-item">Calculator</a>
+        </li>
+        <li>
+            <a href="{{ url_for('settings') }}" class="nav-item">Settings</a>
+        </li>
+    </ul>
+    <div id='burger'>
+        <div class='bar1'></div>
+        <div class='bar2'></div>
+        <div class='bar3'></div>
+    </div>
+</nav>
+<div class='navDrop' id='navDrop'></div>

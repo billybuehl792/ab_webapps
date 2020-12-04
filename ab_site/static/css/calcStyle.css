@@ -1,0 +1,264 @@
+.container {
+    position: absolute;
+    top: 60px;
+    width: 100vw;
+}
+input {
+    font-family: 'Work Sans', sans-serif;
+    background-color: var(--ab_grey, grey);
+}
+input:hover {
+    filter: brightness(0.9);
+}
+textarea:focus, input:focus {
+    outline: none;
+    background-color: var(--highlight, white);
+}
+
+/* left */
+.left {
+    position: fixed;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 50vw;
+    height: 100vh;
+    background-color: var(--ab_grey, grey);
+}
+.productContainer {
+    text-align: center;
+}
+.productContainer h3 {
+    font-size: 25px;
+    font-weight: 400;
+}
+.productContainer h4 {
+    font-size: 15px;
+    font-weight: 400;
+}
+#totalVal {
+    font-size: 90px;
+    font-weight: 600;
+}
+#subtotalVal {
+    font-size: 50px;
+    font-weight: 600;
+}
+#taxVal {
+    font-size: 35px;
+    font-weight: 600;   
+}
+.productContainer h5 {
+    font-size: 20px;
+    font-weight: 300;
+    padding-bottom: 5px;
+}
+.buttons {
+    text-align: center;
+    display: inline;
+}
+.buttons div {
+    font-size: 15px;
+    font-weight: 300;
+    width: 250px;
+    padding: 10px 0px;
+    margin: 5px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.buttons div:hover {
+    filter: brightness(0.9);
+}
+#print {
+    background-color: var(--ab_green, green);
+}
+#clear {
+    background-color: var(--ab_red, red);
+}
+#sendEmail {
+    background-color:var(--highlight, white);
+}
+
+
+/* right */
+.right {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 50vw;
+    float: right;
+    background-color: var(--light, white);
+}
+.customerInfo {
+    text-align: center;
+    margin: 15px 0px;
+    width: 60%;
+}
+.customerInfo h4 {
+    font-size: 16px;
+    font-weight: 300;
+}
+.customerInfo input {
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    margin: 2px 0px 7px 0px;
+    border-radius: 8px;
+    border-style: none;
+    font-size: 13px;
+    font-weight: 400;
+}
+.itemHead th {
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+}
+.item td {
+    width: 120px;
+    padding: 3px 3px;
+    font-size: 15px;
+    font-weight: 300;
+}
+.price {
+    text-align: center;
+}
+.quantity {
+    width: 50px;
+}
+.quantity input {
+    border-radius: 6px;
+    text-align: center;
+    height: 25px;
+    width: 100%;
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    transition: .1s ease;
+}
+.taxItem {
+    margin: 30px 0px;
+}
+#tax {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 900px){
+    .left {
+        width: 40%;
+    }
+    .right {
+        width: 60%;
+    }
+    #totalVal {
+        font-size: 75px;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .left {
+        position: fixed;
+        display: block;
+        top: 60px;
+        width: 100%;
+        height: 100px;
+    }
+    .customerInfo input {
+        width: 100%;
+    }
+    .exportAction {
+        display: none;
+    }
+    .productContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .buttons {
+        position: fixed;
+        bottom: 0;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+    .buttons div {
+        width: 33.333%;
+        padding: 30px 0px;
+        margin: 0;
+        border-radius: 0;
+    }
+    .right {
+        width: 100%;
+        position: absolute;
+        top: 90px;
+    }
+    .productContainer {
+        margin: 0px 10px;
+        height: 100%;
+    }
+    .productContainer div {
+        width: 33.3333%;
+    }
+    .productContainer h3 {
+        font-size: 15px;
+        font-weight: 400;
+    }
+    .productContainer h4 {
+        font-size: 15px;
+        font-weight: 400;
+    }
+    #totalVal {
+        font-size: 30px;
+        font-weight: 600;
+    }
+    #subtotalVal {
+        font-size: 30px;
+        font-weight: 400;
+    }
+    #taxVal {
+        font-size: 30px;
+        font-weight: 400;   
+    }
+    .productContainer h5 {
+        font-size: 15px;
+        font-weight: 400;
+        padding: 0;
+    }
+    .taxItem {
+        margin: 0px;
+        margin-top: 30px;
+        margin-bottom: 120px;
+    }
+}
+
+@media print {
+    nav {
+        display: none;
+    }
+    .navDrop {
+        display: none;
+    }
+    .container {
+        display: none;
+    }
+    #printSection {
+        padding-top: 20px;
+    }
+    #printSection table {
+        margin: 20px 0px;
+    }
+    #printSection table, tr, th, td {
+        border: 1px solid rgb(152, 152, 152);
+    }
+    th, td {
+        padding: 5px;
+    }
+    #printSection h1 {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    #printSection h2 {
+        font-size: 12px;
+    }
+}

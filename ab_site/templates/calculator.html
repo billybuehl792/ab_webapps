@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Calculator{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='css/calcStyle.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    <div class="right">
+        <div class="customerInfo">
+            <h4>Customer Name <input type="text" id="customer" autocomplete="off" /></h4>
+            <h4>Customer Address <input type="text" id="address" autocomplete="off" /></h4>
+            <h4>Customer Phone <input type="text" id="phone" autocomplete="off" /></h4>
+            <h4>Customer Email <input type="text" id="email" autocomplete="off" /></h4>
+        </div>
+
+        <div class="itemContainer">
+            <table class="items">
+                <tr class="itemHead">
+                    <th>Material</th>
+                    <th>Item($)</th>
+                    <th>Quantity</th>
+                </tr>
+                {% for item in items %}
+                    <tr class="item">
+                        <td class="itemName">{{ item }}</td>
+                        <td class="price"><span class="priceNum">{{ items[item] }}</span></td>
+                        <td class="quantity"><input class="number "type="number" name='{{ item }}' autocomplete="no" min="0"></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <p class="taxItem">Tax Rate: <span id="tax"> {{ tax }}</span></p>
+        </div>
+    </div>
+
+    <div class="left">
+        <div class="productContainer">
+            <div>
+                <h3>Total:</h3>
+                <h5>$<span id="totalVal">0</span></h5>                    
+            </div>
+            <div>
+                <h4>Subtotal:</h4>
+                <h5>$<span id="subtotalVal">0</span></h5>                    
+            </div>
+            <div>
+                <h4>Tax:</h4>
+                <h5>$<span id="taxVal">0</span></h5>                    
+            </div>
+        </div>
+        <div class="buttons">
+            <!--<input type="submit">-->
+            <div id="print">Print</div>
+            <div id="sendEmail">Email</div>
+            <div id="clear">Clear</div>
+        </div>
+    </div>
+</div>
+
+<div id="printSection"></div>
+
+<script type='text/javascript' src="{{ url_for('static', filename='calculator.js') }}"></script>
+<script>calc();</script>
+{% endblock %}

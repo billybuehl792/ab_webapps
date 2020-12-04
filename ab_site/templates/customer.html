@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='css/formStyle.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="form-body">
+    <div class="container">
+        <h1 class="title">A&B Roofing and Construction Customer Form</h1>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <!-- Error/ Success -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="submit-message {{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Customer Section -->
+            <div class="form-group">
+                {{ form.fname.label(class="form-label") }}
+                {{ form.fname(class="form-control-field") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.lname.label(class="form-label") }}
+                {{ form.lname(class="form-control-field") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.address.label(class="form-label") }}
+                {{ form.address(class="form-control-field") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.city.label(class="form-label") }}
+                {{ form.city(class="form-control-field") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.state.label(class="form-label") }}
+                {{ form.state(class="form-selection-field") }}
+            </div>
+            
+            <div class="form-group">
+                {{ form.zip_code.label(class="form-label") }}
+                {% if form.zip_code.errors %}
+                        {{ form.zip_code(class="form-control-field danger", type="number") }}
+                        <small class="error-message">Enter numeric value: 0 - 100000</small>
+                {% else %}
+                    {{ form.zip_code(class="form-control-field", type="number") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.email.label(class="form-label") }}
+                {% if form.email.errors %}
+                        {{ form.email(class="form-control-field danger") }}
+                        <small class="error-message">Enter Email</small>
+                {% else %}
+                    {{ form.email(class="form-control-field") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.phone.label(class="form-label") }}
+                {{ form.phone(class="form-control-field") }}
+            </div>
+
+            <!-- Submit -->
+            <div class="form-group">
+                {{ form.submit(class="submit-button")}}
+            </div> 
+
+        </form>
+    </div>
+</div>
+
+<script type='text/javascript' src="{{ url_for('static', filename='job.js') }}"></script>
+<script>job();</script>
+{% endblock %}

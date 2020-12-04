@@ -1,0 +1,131 @@
+.form-body {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: 60px;
+    width: 100vw;
+    background-color: var(--ab_grey, grey);
+}
+.container {
+    width: 500px;
+    padding: 20px 40px;
+    font-size: 14px;
+    background-color: var(--light, white);
+}
+.title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 15px;
+}
+input {
+    margin: 3px 0px;
+    border-width: 0;
+    padding: 7px 10px 7px 10px;
+    border-radius: 7px;
+    background-color: var(--ab_grey, grey);
+    box-sizing: border-box;
+    font-family: 'Work Sans', sans-serif;
+}
+input:hover {
+    filter: brightness(0.9);
+}
+textarea:focus, input:focus {
+    outline: none;
+    background-color: var(--highlight, white);
+}
+.form-label {
+    font-size: 13px;
+}
+.form-control-field {
+    width: 100%;
+}
+.form-selection-field {
+    margin: 10px 0px;
+    padding: 5px;
+    border: 0;
+    border-radius: 7px;
+    background-color: var(--ab_grey, grey);
+    font-family: 'Work Sans', sans-serif;
+}
+.form-box-field {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 200px;
+    min-height: 200px;
+    margin: 5px 0px;
+    padding: 7px 10px 7px 10px;
+    box-sizing: border-box;
+    border-width: 0;
+    border-radius: 7px;
+    background-color: var(--ab_grey, grey);
+    font-family: 'Work Sans', sans-serif;
+}
+.form-box-field:hover {
+    filter: brightness(0.9);
+}
+.form-box-field:focus {
+    background-color: var(--highlight, white);
+}
+.form-group {
+    margin-top: 10px;
+}
+.submit-button {
+    text-align: center;
+    width: 100%;
+    line-height: 60px;
+    border-radius: 7px;
+    font-size: 15px;
+    background-color: var(--highlight, blue);
+    cursor: pointer;
+}
+.submit-button:hover {
+    filter: brightness(0.9);
+}
+.submit-message {
+    text-align: center;
+    width: 100%;
+    line-height: 35px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* activity */
+.active {
+    display: block;
+}
+.inactive {
+    display: none;
+}
+
+/* Success */
+.success {
+    background-color: var(--ab_green, green);
+}
+
+/* Errors */
+.danger {
+    background-color: var(--ab_red, red);
+}
+.danger:hover {
+    filter: brightness(0.9);
+}
+.danger:focus {
+    filter: brightness(0.8);
+}
+.error-message {
+    font-size: 11px;
+    color: var(--ab_red, red);
+}
+.failure {
+    background-color: var(--ab_red, red);
+}
+
+/* mobile */
+@media screen and (max-width: 700px){
+    .title {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='css/dashStyle.css') }}">
+{% endblock %}
+
+{% block body %}
+<p style="position: absolute; top:60px;">this is the dashboard</p>
+{% endblock %}
