@@ -1,22 +1,32 @@
-.container {
-    position: absolute;
+/* Customer Info */
+#info {
+    position: relative;
     top: 60px;
-    width: 100vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 50vw;
+    float: right;
 }
-input {
-    font-family: 'Work Sans', sans-serif;
-    background-color: var(--ab_grey, grey);
+.customer-info {
+    text-align: center;
+    margin: 20px 0px;
+    width: 60%;
 }
-input:hover {
-    filter: brightness(0.9);
+.item-table {
+    margin: 10px 0px;
 }
-textarea:focus, input:focus {
-    outline: none;
-    background-color: var(--highlight, white);
+.item-table th, td {
+    font-size: 13px;
+}
+.item-table input {
+    height: 20px;
+    width: 80px;
+    margin: 2px 0px;
 }
 
-/* left */
-.left {
+/* Operation */
+#operation {
     position: fixed;
     left: 0;
     display: flex;
@@ -27,153 +37,76 @@ textarea:focus, input:focus {
     height: 100vh;
     background-color: var(--ab_grey, grey);
 }
-.productContainer {
+.result-container {
     text-align: center;
+    margin: 10px 0px;
 }
-.productContainer h3 {
-    font-size: 25px;
-    font-weight: 400;
-}
-.productContainer h4 {
-    font-size: 15px;
-    font-weight: 400;
-}
-#totalVal {
+#total {
     font-size: 90px;
     font-weight: 600;
 }
-#subtotalVal {
+#subtotal {
     font-size: 50px;
     font-weight: 600;
 }
-#taxVal {
+#tax {
     font-size: 35px;
     font-weight: 600;   
 }
-.productContainer h5 {
-    font-size: 20px;
-    font-weight: 300;
-    padding-bottom: 5px;
-}
-.buttons {
-    text-align: center;
-    display: inline;
-}
 .buttons div {
     font-size: 15px;
+    text-align: center;
     font-weight: 300;
     width: 250px;
-    padding: 10px 0px;
+    padding: 15px 0px;
     margin: 5px 5px;
     border-radius: 10px;
     cursor: pointer;
 }
 .buttons div:hover {
-    filter: brightness(0.9);
+    filter: brightness(.9);
 }
-#print {
-    background-color: var(--ab_green, green);
-}
-#clear {
-    background-color: var(--ab_red, red);
-}
-#sendEmail {
-    background-color:var(--highlight, white);
-}
-
-
-/* right */
-.right {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 50vw;
-    float: right;
-    background-color: var(--light, white);
-}
-.customerInfo {
-    text-align: center;
-    margin: 15px 0px;
-    width: 60%;
-}
-.customerInfo h4 {
-    font-size: 16px;
-    font-weight: 300;
-}
-.customerInfo input {
-    width: 100%;
-    height: 25px;
-    text-align: center;
-    margin: 2px 0px 7px 0px;
-    border-radius: 8px;
-    border-style: none;
-    font-size: 13px;
-    font-weight: 400;
-}
-.itemHead th {
-    padding-bottom: 5px;
-    border-bottom: 1px solid black;
-}
-.item td {
-    width: 120px;
-    padding: 3px 3px;
-    font-size: 15px;
-    font-weight: 300;
-}
-.price {
-    text-align: center;
-}
-.quantity {
-    width: 50px;
-}
-.quantity input {
-    border-radius: 6px;
-    text-align: center;
-    height: 25px;
-    width: 100%;
-    border: none;
-    font-size: 18px;
-    font-weight: 400;
-    transition: .1s ease;
-}
-.taxItem {
-    margin: 30px 0px;
-}
-#tax {
-    font-size: 20px;
-    font-weight: 500;
+#print-section {
+    display: none;
 }
 
 @media screen and (max-width: 900px){
-    .left {
+    .operation {
         width: 40%;
     }
-    .right {
+    .info {
         width: 60%;
-    }
-    #totalVal {
-        font-size: 75px;
     }
 }
 
 @media screen and (max-width: 700px){
-    .left {
+    /* Operation */
+    #operation {
         position: fixed;
         display: block;
         top: 60px;
         width: 100%;
         height: 100px;
     }
-    .customerInfo input {
+    .customer-info input {
         width: 100%;
     }
-    .exportAction {
-        display: none;
-    }
-    .productContainer {
+    .result-container {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    #total {
+        font-size: 30px;
+        font-weight: 600;
+    }
+    #subtotal {
+        font-size: 30px;
+        font-weight: 300;
+    }
+    #tax {
+        font-size: 30px;
+        font-weight: 300;   
     }
     .buttons {
         position: fixed;
@@ -188,77 +121,48 @@ textarea:focus, input:focus {
         margin: 0;
         border-radius: 0;
     }
-    .right {
+    /* Info */
+    #info {
         width: 100%;
         position: absolute;
-        top: 90px;
+        top: 160px;
+        margin-bottom: 100px;
     }
-    .productContainer {
+    .result-container {
         margin: 0px 10px;
         height: 100%;
     }
-    .productContainer div {
+    .result-container div {
         width: 33.3333%;
     }
-    .productContainer h3 {
-        font-size: 15px;
-        font-weight: 400;
-    }
-    .productContainer h4 {
-        font-size: 15px;
-        font-weight: 400;
-    }
-    #totalVal {
-        font-size: 30px;
-        font-weight: 600;
-    }
-    #subtotalVal {
-        font-size: 30px;
-        font-weight: 400;
-    }
-    #taxVal {
-        font-size: 30px;
-        font-weight: 400;   
-    }
-    .productContainer h5 {
-        font-size: 15px;
-        font-weight: 400;
-        padding: 0;
-    }
-    .taxItem {
-        margin: 0px;
-        margin-top: 30px;
-        margin-bottom: 120px;
+    .item-table input {
+        height: 30px;
+        width: 80px;
+        margin: 2px 0px;
     }
 }
 
 @media print {
-    nav {
+    header, #info, #operation {
         display: none;
     }
-    .navDrop {
-        display: none;
+    #print-section {
+        display: block;
     }
-    .container {
-        display: none;
+    h1 {
+        font-size: 100px;
+        line-height: 120px;
     }
-    #printSection {
-        padding-top: 20px;
+    h2 {
+        font-size: 60px;
+        line-height: 70px;
     }
-    #printSection table {
-        margin: 20px 0px;
-    }
-    #printSection table, tr, th, td {
-        border: 1px solid rgb(152, 152, 152);
+    table {
+        width: 50%;
+        margin: 20px 5px;
     }
     th, td {
-        padding: 5px;
-    }
-    #printSection h1 {
-        font-size: 20px;
-        margin-bottom: 5px;
-    }
-    #printSection h2 {
-        font-size: 12px;
+        font-size: 50px;
+        padding: 10px 50px;
     }
 }

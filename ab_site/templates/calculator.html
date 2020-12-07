@@ -3,65 +3,70 @@
 {% block title %}Calculator{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='css/calcStyle.css') }}">
+    <link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='css/calcStyle.css') }}">
 {% endblock %}
 
 {% block body %}
-<div class="container">
-
-    <div class="right">
-        <div class="customerInfo">
-            <h4>Customer Name <input type="text" id="customer" autocomplete="off" /></h4>
-            <h4>Customer Address <input type="text" id="address" autocomplete="off" /></h4>
-            <h4>Customer Phone <input type="text" id="phone" autocomplete="off" /></h4>
-            <h4>Customer Email <input type="text" id="email" autocomplete="off" /></h4>
+    <!-- Job Info -->
+    <section id="info">
+        <div class="customer-info">
+            <h4>Customer Name</h4>
+            <input type="text" id="customer" autocomplete="off" name="Customer" />
+            <h4>Customer Address</h4>
+            <input type="text" id="address" autocomplete="off" name="Address" />
+            <h4>Customer Phone</h4>
+            <input type="text" id="phone" autocomplete="off" name="Phone" />
+            <h4>Customer Email</h4>
+            <input type="text" id="email" autocomplete="off" name="Email" />
         </div>
 
-        <div class="itemContainer">
-            <table class="items">
-                <tr class="itemHead">
+        <!-- Item Table-->
+        <div class="item-container">
+            <table class="item-table">
+                <tr> 
                     <th>Material</th>
                     <th>Item($)</th>
                     <th>Quantity</th>
                 </tr>
                 {% for item in items %}
-                    <tr class="item">
-                        <td class="itemName">{{ item }}</td>
-                        <td class="price"><span class="priceNum">{{ items[item] }}</span></td>
-                        <td class="quantity"><input class="number "type="number" name='{{ item }}' autocomplete="no" min="0"></td>
+                    <tr class="items">
+                        <td class="item-name">{{ item }}</td>
+                        <td><span class="price">{{ items[item] }}</span></td>
+                        <td><input class="quantity" type="number" name="{{ item }}" autocomplete="no" min="0"></td>
                     </tr>
                 {% endfor %}
+                <tr>
+                    <td>Tax Rate</td>
+                    <td><span id="tax-rate">{{ tax }}</span></td>
+                </tr>
             </table>
-            <p class="taxItem">Tax Rate: <span id="tax"> {{ tax }}</span></p>
         </div>
-    </div>
+    </section>
 
-    <div class="left">
-        <div class="productContainer">
+    <section id="operation">
+        <div class="result-container">
             <div>
-                <h3>Total:</h3>
-                <h5>$<span id="totalVal">0</span></h5>                    
+                <h4>Total:</h4>
+                <h5>$<span id="total">0</span></h5>                    
             </div>
             <div>
                 <h4>Subtotal:</h4>
-                <h5>$<span id="subtotalVal">0</span></h5>                    
+                <h5>$<span id="subtotal">0</span></h5>                    
             </div>
             <div>
                 <h4>Tax:</h4>
-                <h5>$<span id="taxVal">0</span></h5>                    
+                <h5>$<span id="tax">0</span></h5>                    
             </div>
         </div>
         <div class="buttons">
             <!--<input type="submit">-->
-            <div id="print">Print</div>
-            <div id="sendEmail">Email</div>
-            <div id="clear">Clear</div>
+            <div id="print" class="positive">Print</div>
+            <div id="send-email" class="neutral">Email</div>
+            <div id="clear" class="danger">Clear</div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div id="printSection"></div>
+    <div id="print-section"></div>
 
-<script type='text/javascript' src="{{ url_for('static', filename='calculator.js') }}"></script>
-<script>calc();</script>
+    <script type='text/javascript' src="{{ url_for('static', filename='calculator.js') }}"></script>
 {% endblock %}

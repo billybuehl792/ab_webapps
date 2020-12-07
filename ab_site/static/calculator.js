@@ -1,129 +1,92 @@
-function calculate() {
-    // calculate totals
-    var subtotal = 0;
-    var inputItems = document.querySelectorAll(".items .item");
-    var taxRate = document.getElementById("tax").innerHTML;
+$(document).ready(function() {
+    // Calculate from table
+    function calculate() {
+        // Calculate totals from item-table
+        var subtotal = 0;
+        var taxRate = parseFloat($("#tax-rate").html());
 
-    inputItems.forEach((item) => {
-        let priceNum = item.querySelector(".price .priceNum").innerHTML;
-        let multiplier = item.querySelector(".quantity input").value
-        subtotal += priceNum * multiplier;
+        $(".item-table tr").each(function() {
+            let price = parseFloat($(this).find(".price").text()) || 0;
+            let multiplier = parseInt($(this).find(".quantity").val()) || 0;
+            subtotal += Math.round(price * multiplier * 100) / 100;
+        });
+        var tax = Math.round(subtotal * taxRate * 100) / 100;
+        var total = Math.round((subtotal + tax) * 100) / 100;
+
+        // Insert values into HTML
+        $("#total").html(total);
+        $("#subtotal").html(subtotal);
+        $("#tax").html(tax);
+    }
+
+    // Change value > calculate
+    $(".quantity").each(function() {
+        $(this).change(calculate);
     });
 
-    var tax = (subtotal * taxRate);
-    var total = subtotal + tax;
-    
-    document.getElementById("totalVal").innerHTML = Math.round(total * 100) / 100;
-    document.getElementById("subtotalVal").innerHTML = Math.round(subtotal * 100) / 100;
-    document.getElementById("taxVal").innerHTML = Math.round(tax * 100) / 100;
-}
-
-function calculator() {
-    //create event listeners
-    var inputItems = document.querySelectorAll(".items .item");
-
-    inputItems.forEach((item) => {
-        item.querySelector(".quantity input").addEventListener("change", calculate);
-    });
-}
-
-function clear() {
-    var clearButton = document.getElementById("clear");
-    var inputItems = document.querySelectorAll(".items .item");
-
-    //clear form
-    clearButton.addEventListener("click", () => {
-        inputItems.forEach((item) => {
-            item.querySelector(".quantity input").value = "";
-        document.getElementById("customer").value="";
-        document.getElementById("address").value="";
-        document.getElementById("phone").value = "";
-        document.getElementById("email").value = "";
+    // Clear calculator > calculate
+    $("#clear").click(function() {
+        $("input").each(function() {
+            $(this).val("");
         });
         calculate();
     });
-}
 
-function printForm() {
-    //open print options with formatted calc
-    var printButton = document.getElementById("print");
-    var printSection = document.getElementById("printSection");
-
-    function getPrintString() {
+    // Build/ Print page
+    $("#print").click(function() {
+        $("#print-section").html("");
         let printElem = "";
-        
-        if (document.getElementById("customer").value != "") {
-            printElem += "<p>" + "Customer: " + document.getElementById("customer").value + "</p>";
-        }
-        if (document.getElementById("address").value != "") {
-            printElem += "<p>" + "Customer Address: " + document.getElementById("address").value + "</p>";
-        }
-        if (document.getElementById("phone").value != "") {
-            printElem += "<p>" + "Customer Phone: " + document.getElementById("phone").value + "</p>";
-        }
-        if (document.getElementById("email").value != "") {
-            printElem += "<p>" + "Customer Email: " + document.getElementById("email").value + "</p>";
-        }
-        
-        printElem += "<table><tr><th>Material</th><th>Item($)</th><th>Quantity</th></tr>";
-        document.querySelectorAll(".items .item").forEach((item) => {
-            if(item.querySelector(".quantity input").value != "") {
-                printElem += "<tr>";
-                printElem += "<td>" + item.querySelector(".itemName").innerHTML + "</td>";
-                printElem += "<td>" + "$" + item.querySelector(".price .priceNum").innerHTML + "</td>";
-                printElem += "<td>" + item.querySelector(".quantity input").value + "</td>";
-                printElem += "</tr>";
-            }
+
+        // Append customer info to string
+        $(".customer-info input").each(function() {
+            printElem += "<h2>";
+            printElem += $(this).attr('name') + ": " + $(this).val();
+            printElem += "</h2>";
         });
-    
+
+        // Append table information to string
+        printElem += "<table>";
+        printElem += "<tr><th>Material</th><th>Item($)</th><th>Quantity</th></tr>";
+        $(".items").each(function() {
+            printElem += "<tr>";
+            printElem += "<td>" + $(this).find(".item-name").text() + "</td>";
+            printElem += "<td>" + $(this).find(".price").text() + "</td>";
+            printElem += "<td>" + (parseInt($(this).find(".quantity").val()) || 0) + "</td>";
+            printElem += "</tr>";
+        });
+        printElem += "<tr><td>Tax Rate</td><td>" + $("#tax-rate").text() +"</td></tr>";
         printElem += "</table>";
-    
-        printElem += "<h1>Total: $" + document.getElementById("totalVal").innerHTML + "</h1>";
-        printElem += "<h2>Subtotal: $" + document.getElementById("subtotalVal").innerHTML + "</h2>";
-        printElem += "<h2>Tax: $" + document.getElementById("taxVal").innerHTML + "</h2>";
 
-        return(printElem);
-    }
+        // Append totals to string
+        printElem += "<h1>Total: $" + $("#total").text() + "</h1>";
+        printElem += "<h2>Subtotal: $" + $("#subtotal").text() + "</h2>";
+        printElem += "<h2>Tax: $" + $("#tax").text() + "</h2>";
 
-    printButton.addEventListener("click", () => {
-        printSection.innerHTML = getPrintString();
+        // Append print string to page
+        $("#print-section").append(printElem);
         window.print();
-        printSection.innerHTML = "";
     });
-}
 
-function emailForm() {
-    var emailButton = document.getElementById("sendEmail");
-
-    //compose and send email to a&b roofing
-    emailButton.addEventListener("click", () => {
+    // Build/ Email string
+    $("#send-email").click(function() {
         let emailString = "";
 
-        if (document.getElementById("customer").value != "") {
-            emailString += "Customer: " + document.getElementById("customer").value + "%0D%0A";
-        }
-        if (document.getElementById("address").value != "") {
-            emailString += "Customer Address: " + document.getElementById("address").value + "%0D%0A";
-        }
-        if (document.getElementById("phone").value != "") {
-            emailString += "Customer Phone: " + document.getElementById("phone").value + "%0D%0A";
-        }
-        if (document.getElementById("email").value != "") {
-            emailString += "Customer Email: " + document.getElementById("email").value + "%0D%0A%0D%0A";
-        }
-        
-        document.querySelectorAll(".items .item").forEach((item) => {
-            if(item.querySelector(".quantity input").value != '') {
-                emailString += item.querySelector(".itemName").innerHTML + "(";
-                emailString += "$" + item.querySelector(".price .priceNum").innerHTML + "): ";
-                emailString += item.querySelector(".quantity input").value + "%0D%0A";
-            }
+        // Append customer info to string
+        $(".customer-info input").each(function() {
+            emailString += $(this).attr('name') + ": " + $(this).val() + "%0D%0A";
         });
+        emailString += "%0D%0A";
 
-        emailString += "%0D%0ATotal: $" + document.getElementById("totalVal").innerHTML + "%0D%0A";
-        emailString += "Subtotal: $" + document.getElementById("subtotalVal").innerHTML + "%0D%0A";
-        emailString += "Tax: $" + document.getElementById("taxVal").innerHTML + "%0D%0A";
+        // Append table info to string
+        $(".items").each(function() {
+            emailString += $(this).find(".item-name").text() + "($" + $(this).find(".price").text() + "): ";
+            emailString += (parseInt($(this).find(".quantity").val()) || 0) + "%0D%0A";
+        });
+        emailString += "%0D%0A%0D%0ATotal: $" + $("#total").text();
+        emailString += "%0D%0ASubtotal: $" + $("#subtotal").text();
+        emailString += "%0D%0ATax: $" + $("#tax").text();
 
+        // Create and direct to link
         var link = "mailto:aandbroofing1595@gmail.com"
         + "?cc="
         + "&subject=" + "Estimate Calculator"
@@ -131,12 +94,4 @@ function emailForm() {
         
         window.location.href = link;
     });
-}
-
-
-const calc = () => {
-    calculator();
-    clear();
-    printForm();
-    emailForm();
-}
+});
