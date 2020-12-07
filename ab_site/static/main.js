@@ -27,4 +27,10 @@ $(document).ready(function() {
         }
     });
 
+    // Highlight active nav elem
+    $("#nav-links li").each(function() {
+        if ($(this).find("a").attr('href') === window.location.pathname) {
+            $(this).find("a").toggleClass("link-active");
+        }
+    });
 });

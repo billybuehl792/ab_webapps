@@ -120,11 +120,12 @@ nav {
 }
 #nav-links li {
     font-size: 13px;
+    font-weight: 300;
     display: inline-block;
     text-align: center;
 }
 #nav-links li a {
-    padding: 10px 20px;
+    padding: 8px;
     color: var(--light, white);
 }
 #nav-links li a:hover {
@@ -132,7 +133,9 @@ nav {
     color: var(--ab_blue, blue);
     border-radius: 10px;
 }
-
+.link-active {
+    font-weight: 600;
+}
 .container {
     position: relative;
     top: 60px;
@@ -168,10 +171,11 @@ nav {
     }
     #nav-links li {
         display: block;
-        padding: 20px;
+        padding: 15px;
         text-align: center;
     }
     #nav-links li a, #nav-links li a:hover {
+        padding: 10px 20px;
         color: var(--dark, black);
     }
 }
