@@ -1,15 +1,11 @@
-.form-body {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    top: 60px;
-    width: 100vw;
+body {
     background-color: var(--ab_grey, grey);
 }
 .container {
     width: 500px;
     padding: 20px 40px;
     font-size: 14px;
+    margin: 0 auto;
     background-color: var(--light, white);
 }
 .title {
@@ -18,7 +14,7 @@
     font-weight: 600;
     padding-bottom: 15px;
 }
-input {
+input, textarea, select {
     margin: 3px 0px;
     border-width: 0;
     padding: 7px 10px 7px 10px;
@@ -26,62 +22,60 @@ input {
     background-color: var(--ab_grey, grey);
     box-sizing: border-box;
     font-family: 'Work Sans', sans-serif;
-}
-input:hover {
-    filter: brightness(0.9);
-}
-textarea:focus, input:focus {
-    outline: none;
-    background-color: var(--highlight, white);
-}
-.form-label {
+    text-align: left;
     font-size: 13px;
+    resize: none;
 }
-.form-control-field {
-    width: 100%;
+input[type="checkbox"] {
+    cursor: pointer;
+    width: auto;
+    margin: 0px 10px;
 }
-.form-selection-field {
-    margin: 10px 0px;
-    padding: 5px;
-    border: 0;
-    border-radius: 7px;
-    background-color: var(--ab_grey, grey);
-    font-family: 'Work Sans', sans-serif;
+input[type="button"] {
+    cursor: pointer;
+    margin: 0px;
 }
-.form-box-field {
-    width: 100%;
-    max-width: 100%;
-    min-width: 100%;
-    max-height: 200px;
-    min-height: 200px;
-    margin: 5px 0px;
-    padding: 7px 10px 7px 10px;
-    box-sizing: border-box;
-    border-width: 0;
-    border-radius: 7px;
-    background-color: var(--ab_grey, grey);
-    font-family: 'Work Sans', sans-serif;
-}
-.form-box-field:hover {
-    filter: brightness(0.9);
-}
-.form-box-field:focus {
-    background-color: var(--highlight, white);
-}
-.form-group {
-    margin-top: 10px;
-}
-.submit-button {
-    text-align: center;
-    width: 100%;
-    line-height: 60px;
-    border-radius: 7px;
-    font-size: 15px;
-    background-color: var(--highlight, blue);
+select {
     cursor: pointer;
 }
-.submit-button:hover {
+textarea {
+    height: 100px;
+}
+input:hover, textarea:hover, select:hover {
     filter: brightness(0.9);
+}
+input:focus, textarea:focus {
+    outline: none;
+}
+input[disabled] {
+    background-color: var(--ab_grey, grey);
+    filter: brightness(1.12);
+}
+.form-group {
+    padding: 5px 0px;
+}
+.search-container {
+    background-color: var(--ab_grey, grey);
+    width: 100%;
+    height: 100px;
+    border-radius: 10px;
+    margin: 5px 0px;
+    padding: 5px 10px;
+    overflow: scroll;
+}
+.info-group {
+    text-align: right;
+}
+.info-group a {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.submit-button {
+    text-align: center;
+    background-color: var(--highlight, blue);
+    height: 50px;
+    cursor: pointer;
 }
 .submit-message {
     text-align: center;
@@ -92,29 +86,12 @@ textarea:focus, input:focus {
     font-weight: 600;
 }
 
-/* activity */
-.active {
-    display: block;
-}
-.inactive {
-    display: none;
-}
-
 /* Success */
 .success {
     background-color: var(--ab_green, green);
 }
 
 /* Errors */
-.danger {
-    background-color: var(--ab_red, red);
-}
-.danger:hover {
-    filter: brightness(0.9);
-}
-.danger:focus {
-    filter: brightness(0.8);
-}
 .error-message {
     font-size: 11px;
     color: var(--ab_red, red);
@@ -123,9 +100,9 @@ textarea:focus, input:focus {
     background-color: var(--ab_red, red);
 }
 
-/* mobile */
-@media screen and (max-width: 700px){
-    .title {
-        font-size: 16px;
+/* Mobile */
+@media screen and (max-width: 700px) {
+    .container {
+        width: 100%;
     }
 }

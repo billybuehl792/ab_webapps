@@ -1,44 +1,85 @@
-function toggleWork() {
-    var workSection = document.getElementById("work-section");
-    var workOption = document.getElementById("work-option");
+$(document).ready(function() {
+    var workOption = $("#work-option");
+    var workSection = $("#work-section");
+    var timeOption = $("#time-option");
+    var timeSection = $("#start-complete")
+    var duration = $("#duration");
 
-    workSection.classList.add("inactive");
-
-    if (workOption.checked == true) {
-        workSection.classList.remove("inactive");
+    // toggle work location
+    if (workOption.prop("checked")) {
+        workSection.show();
     } else {
-        workSection.classList.add("inactive");
+        workSection.hide();
     }
-
-    workOption.addEventListener("change", ()=> {
-        //toggle work section
-        workSection.classList.toggle("inactive");
+    $(workOption).click(function() {
+        if (workOption.prop("checked")) {
+            workSection.slideDown(200);
+        } else {
+            workSection.slideUp(200);
+        }
     });
-}
 
-function toggleTime() {
-    var timeOption = document.getElementById("time-option");
-    var duration = document.getElementById("duration");
-    var startComplete = document.getElementById("start-complete");
-
-    startComplete.classList.toggle("inactive");
-
-    if (timeOption.checked == true) {
-        startComplete.classList.remove("inactive");
-        duration.classList.add("inactive");
-        // clear duration field
+    // toggle start/completion time
+    if (timeOption.prop("checked")) {
+        duration.hide();
+        timeSection.show();
     } else {
-        startComplete.classList.add("inactive");
-        duration.classList.remove("inactive");
+        duration.show();
+        timeSection.hide();
     }
-
-    timeOption.addEventListener("change", () => {
-        duration.classList.toggle("inactive");
-        startComplete.classList.toggle("inactive");
+    $(timeOption).click(function() {
+        if (timeOption.prop("checked")) {
+            duration.slideUp(200);
+            timeSection.slideDown(200);
+        } else {
+            timeSection.slideUp(200);
+            duration.slideDown(200);
+        }
     });
-}
 
-const job = () => {
-    toggleWork();
-    toggleTime();
-}
+    // live customer search
+    $("#customer-search").on("input", function(e) {
+        var inputText = $("#customer-search").val();
+
+        // set temp text
+        $("#search-results").html("searching!");
+
+        // GET request to customer-search
+        $.ajax({
+            method: "GET",
+            url: "/customer-search",
+            data: {text:inputText},
+            success: function(res) {
+                $("#search-results").html("");
+                if (res.length > 0) {
+                    $("#search-results").slideDown(200);
+                    $.each(res, function(index, item) {
+                        var inputElem = document.createElement("input");
+                        inputElem.type = "button";
+                        inputElem.value = item["name"] + " - " + item["phone"] + " - " + item["address"];
+                        inputElem.className = "customer-element";
+                        inputElem.onclick = (function() {
+                            $("#customer-name").val(item["name"]);
+                            $("#customer-id").val(item["public_id"]);
+                            $("#customer-search").val("");
+                            $("#search-results").slideUp(200);
+                        });
+                        $("#search-results").append(inputElem);
+                    });
+                } else {
+                    $("#search-results").slideUp(200);
+                }
+            },
+            error: function() {
+                console.log("error!!");
+            }
+        });
+    });
+
+    // submit disabled
+    $('form').submit(function(e) {
+        $(':disabled').each(function(e) {
+            $(this).removeAttr('disabled');
+        })
+    });
+});

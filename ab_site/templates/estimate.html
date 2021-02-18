@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='css/formStyle.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="title">{{ title }}</h1>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+
+        <!-- Error/ Success -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="submit-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- Contract Type -->
+        <div class="form-group">
+            {{ form.contract_type.label(class="form-label") }}
+            {{ form.contract_type(class="form-selection-field") }}
+        </div>
+
+        <!-- Customer Info -->
+        <div class="form-group">
+            {{ form.customer_fname.label(class="form-label") }}
+            {{ form.customer_fname(class="form-control-field") }}
+        </div>
+        <div class="form-group">
+            {{ form.customer_lname.label(class="form-label") }}
+            {{ form.customer_lname(class="form-control-field") }}
+        </div>
+        <div class="form-group">
+            {{ form.customer_address.label(class="form-label") }}
+            {{ form.customer_address(class="form-control-field") }}
+        </div>
+        <div class="form-group">
+            {{ form.customer_city.label(class="form-label") }}
+            {{ form.customer_city(class="form-control-field") }}
+        </div>
+        <div class="form-group">
+            {{ form.customer_state.label(class="form-label") }}
+            {{ form.customer_state(class="form-selection-field") }}
+        </div>
+        <div class="form-group">
+            {{ form.customer_zip.label(class="form-label") }}
+            {{ form.customer_zip(class="form-control-field", type="number") }}
+        </div>
+        <div class="form-group">
+            {{ form.customer_email.label(class="form-label") }}
+            {{ form.customer_email(class="form-control-field") }}
+        </div>
+        <div class="form-group">
+            {{ form.customer_phone.label(class="form-label") }}
+            {% if form.customer_phone.errors %}
+                {{ form.customer_phone(class="form-control-field failure") }}
+                <small class="error-message">Enter valid phone number</small>
+            {% else %}
+                {{ form.customer_phone(class="form-control-field") }}
+            {% endif %}
+        </div>
+
+        <!-- Work Extender Option -->
+        <div class="form-group">
+            {{ form.work_option.label(class="form-label") }}
+            {{ form.work_option(class="form-selection-field", id="work-option") }}
+        </div>
+
+        <hr>
+
+        <!-- Work Location Section -->
+        <div class="form-container" id="work-section">
+            <div class="form-group">
+                {{ form.work_address.label(class="form-label") }}
+                {{ form.work_address(class="form-control-field") }}
+            </div>
+            <div class="form-group">
+                {{ form.work_city.label(class="form-label") }}
+                {{ form.work_city(class="form-control-field") }}
+            </div>
+            <div class="form-group">
+                {{ form.work_state.label(class="form-label") }}
+                {{ form.work_state(class="form-selection-field") }}
+            </div>
+            <div class="form-group">
+                {{ form.work_zip.label(class="form-label") }}
+                {{ form.work_zip(class="form-control-field", type="number") }}
+            </div>
+            <div class="form-group">
+                {{ form.work_architect.label(class="form-label") }}
+                {{ form.work_architect(class="form-control-field") }}
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Amount -->
+        <div class="form-group">
+            {{ form.amount.label(class="form-label") }}
+            {% if form.amount.errors %}
+                    {{ form.amount(class="form-control-field failure", type="number") }}
+                    <small class="error-message">Enter numeric value: 0 - 100000</small>
+            {% else %}
+                {{ form.amount(class="form-control-field", type="number") }}
+            {% endif %}
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            {{ form.description.label(class="form-label") }}
+            {% if form.description.errors %}
+                    {{ form.description(class="form-box-field failure") }}
+                    <small class="error-message">Enter job description</small>
+            {% else %}
+                {{ form.description(class="form-box-field") }}
+            {% endif %}
+        </div>
+
+        <!-- Warranty -->
+        <div class="form-group">
+            {{ form.warranty.label(class="form-label") }}
+            {% if form.warranty.errors %}
+                    {{ form.warranty(class="form-control-field failure", type="number") }}
+                    <small class="error-message">Enter numeric value: 0.0 - 25.0</small>
+            {% else %}
+                {{ form.warranty(class="form-control-field", type="number") }}
+            {% endif %}
+        </div>
+
+        <!-- Specify time -->
+        <div class="form-group">
+            {{ form.time_type.label(class="form-label") }}
+            {{ form.time_type(class="form-selection-field", id="time-option") }}
+        </div>
+
+        <!-- Job Duration -->
+        <div class="form-group" id="duration">
+            {{ form.duration.label(class="form-label") }}
+            {% if form.duration.errors %}
+                    {{ form.duration(class="form-control-field failure", type="number", min="0") }}
+                    <small class="error-message">Enter numeric value: 0.0 - 500</small>
+            {% else %}
+                {{ form.duration(class="form-control-field", type="number", min="0") }}
+            {% endif %}
+        </div>
+        
+        <!-- Start/ Completion Date -->
+        <div class="form-container" id="start-complete">
+            <div class="form-group">
+                {{ form.start_date.label(class="form-label") }}
+                {% if form.start_date.errors %}
+                        {{ form.start_date(class="form-control-field failure", type="date") }}
+                        <small class="error-message">Enter numeric value: 0.0 - 500</small>
+                {% else %}
+                    {{ form.start_date(class="form-control-field", type="date") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.completion_date.label(class="form-label") }}
+                {% if form.completion_date.errors %}
+                        {{ form.completion_date(class="form-control-field failure", type="date") }}
+                        <small class="error-message">Enter numeric value: 0.0 - 500</small>
+                {% else %}
+                    {{ form.completion_date(class="form-control-field", type="date") }}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="form-group">
+            {{ form.submit(class="submit-button")}}
+        </div> 
+
+    </form>
+</div>
+
+<script type='text/javascript' src="{{ url_for('static', filename='job.js') }}"></script>
+{% endblock %}

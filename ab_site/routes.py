@@ -1,99 +1,128 @@
 # routes.py - routes to app pages
 
+import uuid
 import json
-import re
-from flask import flash, url_for, redirect, render_template, request
+from flask import flash, url_for, redirect, render_template, request, jsonify
+from sqlalchemy import or_
 from ab_site import app, db, bcrypt
-from ab_site.forms import LoginForm, CustomerForm, JobForm
+from ab_site.forms import CustomerForm, JobForm
 from ab_site.models import User, Customer, Job
 
 
+def format_phone(phone_number):
+    formatted = ''
+    for n in phone_number:
+        if n.isdigit():
+            formatted += n
+    try:
+        return int(formatted)
+    except ValueError:
+        return None
+
+def search_customers(text_string):
+    customers = db.session.query(Customer).filter(or_(
+            Customer.f_name.startswith(text_string),
+            Customer.l_name.startswith(text_string),
+            (Customer.f_name + Customer.l_name).startswith(text_string),
+            (Customer.f_name + Customer.l_name).startswith(text_string),
+            (Customer.f_name + Customer.m_name + Customer.l_name).startswith(text_string)
+        )).all()
+
+    customer_list = []
+    c = 0
+    for customer in customers:
+        customer_list.append({
+            'public_id': customer.public_id,
+            'name': f'{customer.f_name.capitalize()} {customer.m_name.capitalize()} {customer.l_name.capitalize()}',
+            'phone': customer.phone_0,
+            'address': customer.address
+        })
+        c += 1
+        if c >= 20:
+            break
+    
+    return customer_list
+
+def format_string(text_string):
+    return text_string.lower().replace(' ','')
+
 @app.route('/')
 def dashboard():
-    return render_template('dashboard.html',
-                           title='Dashboard')
+    return render_template('dashboard.html', title='Dashboard')
 
 
-@app.route('/calculator/')
+@app.route('/calculator')
 def calculator():
     with open('ab_site/config/calcConfig.json', 'r') as f:
         data = json.load(f)
     items = data['items']
     tax = data['tax']
-    return render_template('calculator.html',
-                           title='Calculator',
-                           items=items,
-                           tax=tax)
+
+    return render_template('calculator.html', title='Calculator', items=items, tax=tax)
 
 
-@app.route('/customer/', methods=['GET', 'POST'])
-def customer():
+@app.route('/customer/new', methods=['GET', 'POST'])
+def new_customer():
     form = CustomerForm()
     if request.method == 'POST':
         if form.validate_on_submit():
-            # create customer object from user input data
             customer = Customer(
-                                fname=str(form.fname.data).lower().replace(" ", ""),
-                                lname=str(form.lname.data).lower().replace(" ", ""),
-                                address=str(form.address.data).lower().replace(" ", ""),
-                                city=str(form.city.data).lower().replace(" ", ""),
-                                state=form.state.data,
-                                zip_code=form.zip_code.data,
-                                phone=re.sub("[^0-9]", "", form.phone.data),
-                                email=form.email.data)
-
-            db.session.add(customer)
-            db.session.commit()
-            flash('Customer Added to Database!', 'success')
-            # redirect to print form
-            return redirect(url_for('job'))
+                public_id=int(uuid.uuid4().time_low),
+                f_name=format_string(form.f_name.data),
+                m_name=format_string(form.m_name.data),
+                l_name=format_string(form.l_name.data),
+                phone_0=format_phone(form.phone_0.data),
+                phone_1=format_phone(form.phone_1.data),
+                email=format_string(form.email.data),
+                address=form.address.data,
+                city=format_string(form.city.data),
+                zip_code=int(form.zip_code.data),
+                state=format_string(form.state.data)
+            )
+            try:
+                db.session.add(customer)
+                db.session.commit()
+                flash(f'{form.f_name.data} {form.m_name.data} {form.l_name.data} added!', 'success')
+            except:
+                flash('Customer creation failure!', 'danger')
         else:
-            flash('Customer Export Failure', 'failure')
-
-    return render_template('customer.html', title='Customer', form=form)
-
-
-@app.route('/customers/')
-def customers():
-    return "hey customers!"
+            flash('Customer creation failure! Please check fields!', 'danger')
+    return render_template('customer.html', title='New Customer', form=form)
 
 
-@app.route('/job/', methods=['GET', 'POST'])
-def job():
+@app.route('/job/new', methods=['GET', 'POST'])
+def new_job():
     form = JobForm()
     if request.method == 'POST':
+        customer = Customer.query.filter_by(public_id=form.customer_id.data).first()
+        # job = Job(
+        #     public_id=int(uuid.uuid4().time_low),
+        #     customer_id=customer.id,
+        #     contract_type=form.contract_type.data.lower(),
+        #     address=form.address.data.lower(),
+        #     city=form.city.data.lower(),
+        #     zip_code=int(form.zip_code.data),
+        #     state=form.state.data.lower(),
+        #     work_address=
+        #     work_city=
+
+        # )
+        for i in form:
+            print(i.data)
         if form.validate_on_submit():
-            print(request.form)
-            for i in request.form:
-                print(f'{i}: {request.form[i]}')
-            # add data to database
-            flash('Job Submit Success!', 'success')
-            # redirect to print form
-            return redirect(url_for('contract'))
+            print('success!')
+            flash(f'Success!', 'success')
+            return redirect(url_for('dashboard'))
         else:
-            flash('Job Submit Failure!', 'failure')
-
-    return render_template('job.html', title='Job', form=form)
-
-
-@app.route('/jobs/')
-def jobs():
-    return '<h1>Hello Jobs</h1>'
+            flash(f'error!', 'danger')
+    return render_template('job.html', title='New Job', form=form)
 
 
-@app.route('/settings/')
-def settings():
-    return render_template('settings.html', title='Settings')
+@app.route('/customer-search')
+def customer_search():
+    text_string = request.args.get('text').replace(' ', '').lower()
+    customers = []
+    if text_string:
+        customers = search_customers(text_string)
 
-
-@app.route('/login/', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.username.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            print('Success!')
-
-        flash('Email or password incorrect', 'danger')
-
-    return render_template('login.html', title='login', form=form)
+    return jsonify(customers)

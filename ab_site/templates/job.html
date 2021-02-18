@@ -2,12 +2,13 @@
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='css/formStyle.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {% endblock %}
 
 {% block body %}
 <div class="form-body">
     <div class="container">
-        <h1 class="title">A&B Roofing and Construction Job Form</h1>
+        <h1 class="title">{{ title }}</h1>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
 
@@ -23,10 +24,23 @@
             {% endwith %}
 
             <!-- Customer Section -->
+
+            <div class="form-group" style="display: none;">
+                {{ form.customer_id(class="form-control-field", id="customer-id") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.customer_name.label(class="form-label") }}
+                {% if form.customer_name.errors %}
+                    {{ form.customer_name(class="form-control-field danger", id="customer-name", disabled=True) }}
+                    <small class="error-message">Customer Error</small>
+                {% else %}
+                    {{ form.customer_name(class="form-control-field", id="customer-name", disabled=True) }}
+                {% endif %}
+            </div>
+
             <div class="info-group">
-                <h2 class="info-label">
-                    Customer: <a href="{{ url_for('customer') }}">Create Customer</a>
-                </h2>
+                <a href="{{ url_for('new_customer') }}">+Create Customer</a>
             </div>
 
             <div class="form-group">
@@ -34,11 +48,36 @@
                 {{ form.customer_search(class="form-control-field", id="customer-search") }}
             </div>
 
+            <!-- Customer Search Result Container -->
+            <div class="search-container" id="search-results" style="display: none;"></div>
 
             <!-- Contract Type -->
             <div class="form-group">
                 {{ form.contract_type.label(class="form-label") }}
                 {{ form.contract_type(class="form-selection-field") }}
+            </div>
+
+            <!-- Customer Location -->
+            <div class="form-group">
+                {{ form.address.label(class="form-label") }}
+                {{ form.address(class="form-control-field") }}
+            </div>
+            <div class="form-group">
+                {{ form.city.label(class="form-label") }}
+                {{ form.city(class="form-control-field") }}
+            </div>
+            <div class="form-group">
+                {{ form.zip_code.label(class="form-label") }}
+                {% if form.zip_code.errors %}
+                        {{ form.zip_code(class="form-control-field danger", type="number") }}
+                        <small class="error-message">Enter numeric value: 0 - 100000</small>
+                {% else %}
+                    {{ form.zip_code(class="form-control-field", type="number") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.state.label(class="form-label") }}
+                {{ form.state(class="form-selection-field") }}
             </div>
 
             <!-- Work Extender Option -->
@@ -127,7 +166,7 @@
                     {{ form.start_date.label(class="form-label") }}
                     {% if form.start_date.errors %}
                             {{ form.start_date(class="form-control-field danger", type="date") }}
-                            <small class="error-message">Enter numeric value: 0.0 - 500</small>
+                            <small class="error-message">Enter valid date format</small>
                     {% else %}
                         {{ form.start_date(class="form-control-field", type="date") }}
                     {% endif %}
@@ -136,7 +175,7 @@
                     {{ form.completion_date.label(class="form-label") }}
                     {% if form.completion_date.errors %}
                             {{ form.completion_date(class="form-control-field danger", type="date") }}
-                            <small class="error-message">Enter numeric value: 0.0 - 500</small>
+                            <small class="error-message">Enter valid date format. Completion date must come after start date.</small>
                     {% else %}
                         {{ form.completion_date(class="form-control-field", type="date") }}
                     {% endif %}
@@ -153,5 +192,4 @@
 </div>
 
 <script type='text/javascript' src="{{ url_for('static', filename='job.js') }}"></script>
-<script>job();</script>
 {% endblock %}
