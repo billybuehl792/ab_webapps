@@ -95,20 +95,18 @@ def new_job():
     form = JobForm()
     if request.method == 'POST':
         customer = Customer.query.filter_by(public_id=form.customer_id.data).first()
-        # job = Job(
-        #     public_id=int(uuid.uuid4().time_low),
-        #     customer_id=customer.id,
-        #     contract_type=form.contract_type.data.lower(),
-        #     address=form.address.data.lower(),
-        #     city=form.city.data.lower(),
-        #     zip_code=int(form.zip_code.data),
-        #     state=form.state.data.lower(),
-        #     work_address=
-        #     work_city=
-
-        # )
-        for i in form:
-            print(i.data)
+        job = Job(
+            public_id=int(uuid.uuid4().time_low),
+            customer_id=customer.id,
+            contract_type=form.contract_type.data,
+            address=form.address.data,
+            city=format_city(form.city.data),
+            zip_code=int(form.zip_code.data),
+            state=format_string(form.state.data),
+            work_address=form.work_address.data,
+            work_city=format_string(form.work_city.data),
+            work_state=format_string(form.work_state.data)
+        )
         if form.validate_on_submit():
             print('success!')
             flash(f'Success!', 'success')
