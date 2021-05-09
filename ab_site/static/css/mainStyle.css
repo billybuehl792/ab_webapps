@@ -35,6 +35,9 @@ h5 {
     font-size: 20px;
     font-weight: 300;
 }
+p {
+    font-size: 14px;
+}
 th {
     padding-bottom: 5px;
     border-bottom: 1px solid var(--dark, black);
@@ -139,6 +142,7 @@ nav {
 .container {
     position: relative;
     top: 60px;
+    padding: 10px;
 }
 
 /* Mobile */

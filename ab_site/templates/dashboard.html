@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard{% endblock %}
-
-{% block head %}
-<link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='css/dashStyle.css') }}">
-{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-<p style="position: absolute; top:60px;">this is the dashboard</p>
+    <div class="container">
+        <h3>Welcome to A&B Roofing and Construction Apps!</h3>
+        <p>This site is currently under construction</p>
+    </div>
 {% endblock %}
